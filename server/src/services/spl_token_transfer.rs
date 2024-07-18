@@ -56,11 +56,7 @@ pub async fn transfer_token(
         );
     }
 
-    println!("Amount: {}", amount);
-    println!("Decimals: {}", mint_data.base.decimals);
     let token_amount = (amount * 10_f64.powi(mint_data.base.decimals as i32)) as u64;
-
-    println!("Token Amount: {}", token_amount);
     let mut transfer_instruction = instruction::transfer_checked(
         &account.owner,
         &from_ata,
@@ -84,17 +80,10 @@ pub async fn transfer_token(
             &from_keypair.pubkey(),
             token_amount,
             |address| async move {
-                println!("Fetching account for address: {}", address);
                 RpcClient::new_with_commitment(RPC_URL.to_string(), CommitmentConfig::confirmed())
                     .get_account(&address)
-                    .map(|account| {
-                        println!("Account fetched successfully");
-                        Some(account.data)
-                    })
-                    .or_else(|e| {
-                        println!("Account does not exist: {:?}", e);
-                        Ok(None)
-                    })
+                    .map(|account| Some(account.data))
+                    .or_else(|_| Ok(None))
             },
         )
         .await
