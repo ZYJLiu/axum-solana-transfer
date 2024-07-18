@@ -1,0 +1,1 @@
+solana-test-validator --clone-upgradeable-program 3C3pUh5XxUd9Nz1P85mDYfUu4PXAFRg1aHCos66epHQK --url https://api.devnet.solana.com --bpf-program TokenzQdBNbLqP5VEhdkAS6EPFLC1PHnBqCXEpPxuEb spl_token_2022.so --reset
